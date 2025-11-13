@@ -1,6 +1,8 @@
 CREATE DATABASE db_pakan_ikan
     DEFAULT CHARACTER SET = 'utf8mb4';
 
+USE db_pakan_ikan;
+
 CREATE TABLE `status_sistem` (
   `id` INT(11) NOT NULL DEFAULT 1,
   `feed_status` VARCHAR(50) NOT NULL DEFAULT 'Penuh',
