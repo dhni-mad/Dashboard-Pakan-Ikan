@@ -1,8 +1,6 @@
 <?php
-// analisis.php
 require 'config/db.php';
 
-// [MODIFIKASI] Fungsi helper untuk konversi jarak ke teks
 function getFeedStatusText($jarak_cm) {
     if ($jarak_cm === null) return "N/A";
     
@@ -17,9 +15,6 @@ function getFeedStatusText($jarak_cm) {
     return "N/A";
 }
 
-// --- Ambil Data Statistik Ringkasan ---
-
-// 1. Statistik Pakan (24 Jam Terakhir)
 $stmt_pakan = $db->prepare("
     SELECT 
         COUNT(*) as jumlah_pakan, 
@@ -30,7 +25,7 @@ $stmt_pakan = $db->prepare("
 $stmt_pakan->execute();
 $stats_pakan = $stmt_pakan->fetch(PDO::FETCH_ASSOC);
 
-// 2. Statistik Kekeruhan (Rata-rata 24 Jam Terakhir)
+
 $stmt_air = $db->prepare("
     SELECT 
         AVG(nilai_kekeruhan) as rata_kekeruhan 
@@ -40,7 +35,7 @@ $stmt_air = $db->prepare("
 $stmt_air->execute();
 $stats_air = $stmt_air->fetch(PDO::FETCH_ASSOC);
 
-// 3. Statistik Jarak Pakan (Rata-rata 24 Jam Terakhir)
+
 $stmt_jarak = $db->prepare("
     SELECT 
         AVG(jarak_cm) as rata_jarak 
@@ -50,12 +45,12 @@ $stmt_jarak = $db->prepare("
 $stmt_jarak->execute();
 $stats_jarak = $stmt_jarak->fetch(PDO::FETCH_ASSOC);
 
-// [MODIFIKASI] Proses data rata-rata jarak
+
 $rata_jarak_cm = $stats_jarak['rata_jarak'];
 $rata_jarak_text = getFeedStatusText($rata_jarak_cm);
 
-// Tentukan warna berdasarkan teks
-$rata_jarak_color = 'text-green-600'; // Default
+
+$rata_jarak_color = 'text-green-600';
 if ($rata_jarak_text == 'Habis') {
     $rata_jarak_color = 'text-red-600';
 } else if ($rata_jarak_text == 'Hampir Habis') {

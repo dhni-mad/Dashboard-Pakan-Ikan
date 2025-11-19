@@ -1,8 +1,6 @@
 <?php
-// api/log_feeding.php
 require '../config/db.php';
 
-// Contoh: ...log_feeding.php?berat=15.5
 $berat = isset($_GET['berat']) ? (float)$_GET['berat'] : 0;
 
 if ($berat > 0) {

@@ -1,15 +1,13 @@
 <?php
-// index.php
 require 'config/db.php';
 
-// --- Ambil Status Terkini (Sama seperti sebelumnya) ---
 $stmt = $db->prepare("SELECT * FROM status_sistem WHERE id = 1");
 $stmt->execute();
 $status = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Logika Warna Status Pakan
+
 $jarak_status_text = $status['feed_status'];
-$jarak_color_class = 'text-green-600'; // Default Penuh
+$jarak_color_class = 'text-green-600'; 
 if ($jarak_status_text == 'Habis') {
     $jarak_color_class = 'text-red-600';
 } else if ($jarak_status_text == 'Hampir Habis') {
@@ -18,17 +16,15 @@ if ($jarak_status_text == 'Habis') {
     $jarak_color_class = 'text-blue-600';
 }
 
-// Logika Warna Status Air
+
 $water_color_class = ($status['water_status'] == 'Keruh') ? 'text-yellow-700' : 'text-blue-600';
 
 
-// --- [BARU] Ambil Log Aktivitas Terbaru ---
-// Ambil 5 log pemberian pakan terakhir
 $stmt_log_pakan = $db->prepare("SELECT waktu, berat_pakan FROM log_pemberian_pakan ORDER BY waktu DESC LIMIT 5");
 $stmt_log_pakan->execute();
 $log_pakan = $stmt_log_pakan->fetchAll(PDO::FETCH_ASSOC);
 
-// Ambil 5 log peringatan (Contoh: air keruh)
+
 $stmt_log_air = $db->prepare("SELECT waktu, nilai_kekeruhan FROM log_kekeruhan_air WHERE nilai_kekeruhan > 700 ORDER BY waktu DESC LIMIT 5");
 $stmt_log_air->execute();
 $log_air_keruh = $stmt_log_air->fetchAll(PDO::FETCH_ASSOC);
@@ -139,12 +135,11 @@ $log_air_keruh = $stmt_log_air->fetchAll(PDO::FETCH_ASSOC);
     </main>
 
     <script>
-        // Hanya JavaScript untuk tombol pakan manual yang tersisa
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('manualFeedButton').addEventListener('click', triggerManualFeed);
         });
 
-        // Fungsi Tombol Pakan Manual (Sama seperti sebelumnya)
+       
         async function triggerManualFeed() {
             const button = document.getElementById('manualFeedButton');
             const statusDiv = document.getElementById('feedStatus');
