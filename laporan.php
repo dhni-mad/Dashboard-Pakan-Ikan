@@ -17,17 +17,16 @@
                 <a href="index.php" class="px-3 py-2 rounded text-gray-700 hover:bg-gray-200 font-semibold">Dashboard</a>
                 <a href="analisis.php" class="px-3 py-2 rounded text-gray-700 hover:bg-gray-200 font-semibold">Analisis Data</a>
                 <a href="laporan.php" class="px-3 py-2 rounded bg-blue-600 text-white font-semibold">Laporan</a>
+                <a href="pengaturan.php" class="px-3 py-2 rounded text-gray-700 hover:bg-gray-200 font-semibold">Pengaturan</a>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto p-6">
-        <!-- Header dan Filter -->
         <div class="bg-white p-6 rounded-lg shadow-md mb-6">
             <h1 class="text-3xl font-bold text-gray-800 mb-6">Laporan Data Sistem</h1>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <!-- Filter Periode -->
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-2">Periode Laporan</label>
                     <select id="periodePicker" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -37,13 +36,11 @@
                     </select>
                 </div>
                 
-                <!-- Filter Tanggal -->
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-2">Pilih Tanggal</label>
                     <input type="date" id="tanggalPicker" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 
-                <!-- Tombol Generate -->
                 <div class="flex items-end">
                     <button id="generateBtn" class="w-full bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300">
                         Generate Laporan
@@ -51,48 +48,40 @@
                 </div>
             </div>
             
-            <!-- Info Periode -->
             <div id="infoPeriode" class="mt-4 p-4 bg-blue-50 border-l-4 border-blue-500 text-blue-700 hidden">
                 <p class="font-semibold">Periode: <span id="periodeText"></span></p>
                 <p class="text-sm">Dari: <span id="startDate"></span> sampai <span id="endDate"></span></p>
             </div>
         </div>
 
-        <!-- Loading Indicator -->
         <div id="loadingIndicator" class="hidden text-center py-8">
             <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
             <p class="mt-4 text-gray-600">Memuat data...</p>
         </div>
 
-        <!-- Konten Laporan -->
         <div id="laporanContent" class="hidden">
             
-            <!-- Ringkasan Statistik -->
             <h2 class="text-2xl font-bold text-gray-800 mb-4">Ringkasan Statistik</h2>
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
                 
-                <!-- Card Total Pemberian Pakan -->
                 <div class="bg-white p-6 rounded-lg shadow-md text-center">
                     <h3 class="text-lg font-semibold text-gray-600 mb-2">Total Pemberian</h3>
                     <div class="text-4xl font-bold text-blue-600" id="totalPemberian">0</div>
                     <div class="text-sm text-gray-500">kali</div>
                 </div>
 
-                <!-- Card Total Berat Pakan -->
                 <div class="bg-white p-6 rounded-lg shadow-md text-center">
                     <h3 class="text-lg font-semibold text-gray-600 mb-2">Total Pakan</h3>
                     <div class="text-4xl font-bold text-green-600" id="totalBerat">0</div>
                     <div class="text-sm text-gray-500">gram</div>
                 </div>
 
-                <!-- Card Rata-rata Berat -->
                 <div class="bg-white p-6 rounded-lg shadow-md text-center">
                     <h3 class="text-lg font-semibold text-gray-600 mb-2">Rata-rata/Pemberian</h3>
                     <div class="text-4xl font-bold text-purple-600" id="rataBerat">0</div>
                     <div class="text-sm text-gray-500">gram</div>
                 </div>
 
-                <!-- Card Status Air -->
                 <div class="bg-white p-6 rounded-lg shadow-md text-center">
                     <h3 class="text-lg font-semibold text-gray-600 mb-2">Air Keruh</h3>
                     <div class="text-4xl font-bold text-yellow-700" id="jumlahKeruh">0</div>
@@ -100,10 +89,8 @@
                 </div>
             </div>
 
-            <!-- Detail Statistik -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                 
-                <!-- Detail Pakan -->
                 <div class="bg-white p-6 rounded-lg shadow-md">
                     <h3 class="text-xl font-semibold text-gray-700 mb-4">Detail Pakan</h3>
                     <div class="space-y-3">
@@ -122,7 +109,6 @@
                     </div>
                 </div>
 
-                <!-- Detail Kekeruhan -->
                 <div class="bg-white p-6 rounded-lg shadow-md">
                     <h3 class="text-xl font-semibold text-gray-700 mb-4">Detail Kekeruhan</h3>
                     <div class="space-y-3">
@@ -141,7 +127,6 @@
                     </div>
                 </div>
 
-                <!-- Detail Level Pakan -->
                 <div class="bg-white p-6 rounded-lg shadow-md">
                     <h3 class="text-xl font-semibold text-gray-700 mb-4">Detail Level Pakan</h3>
                     <div class="space-y-3">
@@ -161,13 +146,11 @@
                 </div>
             </div>
 
-            <!-- Grafik -->
             <div class="bg-white p-6 rounded-lg shadow-md mb-6">
                 <h3 class="text-xl font-semibold text-gray-700 mb-4">Grafik Pemberian Pakan</h3>
                 <canvas id="grafikLaporan"></canvas>
             </div>
 
-            <!-- Tabel Detail Pemberian Pakan -->
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-xl font-semibold text-gray-700">Riwayat Pemberian Pakan</h3>
@@ -185,7 +168,6 @@
                             </tr>
                         </thead>
                         <tbody id="tabelDetailPakan" class="bg-white divide-y divide-gray-200">
-                            <!-- Data akan diisi oleh JavaScript -->
                         </tbody>
                     </table>
                 </div>
@@ -201,13 +183,10 @@
         let currentChart = null;
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Set tanggal hari ini sebagai default
             document.getElementById('tanggalPicker').value = new Date().toISOString().split('T')[0];
             
-            // Event listener untuk tombol generate
             document.getElementById('generateBtn').addEventListener('click', generateLaporan);
             
-            // Event listener untuk export
             document.getElementById('exportBtn').addEventListener('click', exportToCSV);
         });
 
@@ -220,7 +199,6 @@
                 return;
             }
             
-            // Tampilkan loading
             document.getElementById('loadingIndicator').classList.remove('hidden');
             document.getElementById('laporanContent').classList.add('hidden');
             
@@ -244,48 +222,39 @@
         }
 
         function displayLaporan(data) {
-            // Tampilkan konten
             document.getElementById('laporanContent').classList.remove('hidden');
             
-            // Update info periode
             const infoPeriode = document.getElementById('infoPeriode');
             infoPeriode.classList.remove('hidden');
             document.getElementById('periodeText').textContent = data.info.periode.charAt(0).toUpperCase() + data.info.periode.slice(1);
             document.getElementById('startDate').textContent = formatDate(data.info.start_date);
             document.getElementById('endDate').textContent = formatDate(data.info.end_date);
             
-            // Update statistik utama
             document.getElementById('totalPemberian').textContent = data.pakan.jumlah_pemberian || 0;
             document.getElementById('totalBerat').textContent = parseFloat(data.pakan.total_berat || 0).toFixed(1);
             document.getElementById('rataBerat').textContent = parseFloat(data.pakan.rata_rata_berat || 0).toFixed(1);
             document.getElementById('jumlahKeruh').textContent = data.kekeruhan.jumlah_keruh || 0;
             
-            // Update detail pakan
             document.getElementById('minBerat').textContent = (data.pakan.min_berat ? parseFloat(data.pakan.min_berat).toFixed(1) + ' gr' : '-');
             document.getElementById('maxBerat').textContent = (data.pakan.max_berat ? parseFloat(data.pakan.max_berat).toFixed(1) + ' gr' : '-');
             document.getElementById('avgBerat').textContent = (data.pakan.rata_rata_berat ? parseFloat(data.pakan.rata_rata_berat).toFixed(1) + ' gr' : '-');
             
-            // Update detail kekeruhan
             document.getElementById('minKekeruhan').textContent = (data.kekeruhan.min_nilai || '-');
             document.getElementById('maxKekeruhan').textContent = (data.kekeruhan.max_nilai || '-');
             document.getElementById('avgKekeruhan').textContent = (data.kekeruhan.rata_rata ? parseFloat(data.kekeruhan.rata_rata).toFixed(0) : '-');
             
-            // Update detail jarak
             document.getElementById('minJarak').textContent = (data.jarak.min_jarak ? parseFloat(data.jarak.min_jarak).toFixed(1) + ' cm' : '-');
             document.getElementById('maxJarak').textContent = (data.jarak.max_jarak ? parseFloat(data.jarak.max_jarak).toFixed(1) + ' cm' : '-');
             document.getElementById('avgJarak').textContent = (data.jarak.rata_rata ? parseFloat(data.jarak.rata_rata).toFixed(1) + ' cm' : '-');
             
-            // Update grafik
             updateChart(data.grafik_pakan);
             
-            // Update tabel
             updateTable(data.detail_pakan);
         }
 
         function updateChart(grafikData) {
             const ctx = document.getElementById('grafikLaporan').getContext('2d');
             
-            // Destroy chart lama jika ada
             if (currentChart) {
                 currentChart.destroy();
             }
@@ -358,22 +327,18 @@
                 return;
             }
             
-            // Header CSV
             let csv = 'No,Waktu,Berat Pakan (gram)\n';
             
-            // Data rows
             currentData.detail_pakan.forEach((item, index) => {
                 csv += `${index + 1},"${item.waktu_format}",${item.berat_pakan}\n`;
             });
             
-            // Tambahkan ringkasan di akhir
             csv += '\n\nRINGKASAN\n';
             csv += `Periode,${currentData.info.periode}\n`;
             csv += `Total Pemberian,${currentData.pakan.jumlah_pemberian}\n`;
             csv += `Total Berat,${parseFloat(currentData.pakan.total_berat || 0).toFixed(1)} gram\n`;
             csv += `Rata-rata per Pemberian,${parseFloat(currentData.pakan.rata_rata_berat || 0).toFixed(1)} gram\n`;
             
-            // Download file
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement('a');
             const url = URL.createObjectURL(blob);

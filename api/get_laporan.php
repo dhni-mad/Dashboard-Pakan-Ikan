@@ -1,5 +1,4 @@
 <?php
-
 header('Content-Type: application/json');
 require '../config/db.php';
 
@@ -41,7 +40,8 @@ try {
     ");
     $stmt_pakan->execute([$start_date, $end_date]);
     $response['pakan'] = $stmt_pakan->fetch(PDO::FETCH_ASSOC);
-   
+    
+
     $stmt_air = $db->prepare("
         SELECT 
             COUNT(*) as jumlah_data,
@@ -102,7 +102,6 @@ try {
     $stmt_grafik->execute([$start_date, $end_date]);
     $response['grafik_pakan'] = $stmt_grafik->fetchAll(PDO::FETCH_ASSOC);
     
-    // Tambahkan info periode
     $response['info'] = [
         'periode' => $periode,
         'start_date' => $start_date,

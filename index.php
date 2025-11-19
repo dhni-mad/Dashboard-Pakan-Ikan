@@ -1,5 +1,4 @@
 <?php
-
 require 'config/db.php';
 
 $stmt = $db->prepare("SELECT * FROM status_sistem WHERE id = 1");
@@ -48,6 +47,7 @@ $log_air_keruh = $stmt_log_air->fetchAll(PDO::FETCH_ASSOC);
                 <a href="index.php" class="px-3 py-2 rounded bg-blue-600 text-white font-semibold">Dashboard</a>
                 <a href="analisis.php" class="px-3 py-2 rounded text-gray-700 hover:bg-gray-200 font-semibold">Analisis Data</a>
                 <a href="laporan.php" class="px-3 py-2 rounded text-gray-700 hover:bg-gray-200 font-semibold">Laporan</a>
+                <a href="pengaturan.php" class="px-3 py-2 rounded text-gray-700 hover:bg-gray-200 font-semibold">Pengaturan</a>
             </div>
         </nav>
     </header>
@@ -133,12 +133,11 @@ $log_air_keruh = $stmt_log_air->fetchAll(PDO::FETCH_ASSOC);
     </main>
 
     <script>
-        // Hanya JavaScript untuk tombol pakan manual yang tersisa
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('manualFeedButton').addEventListener('click', triggerManualFeed);
         });
 
-        // Fungsi Tombol Pakan Manual (Sama seperti sebelumnya)
+       
         async function triggerManualFeed() {
             const button = document.getElementById('manualFeedButton');
             const statusDiv = document.getElementById('feedStatus');

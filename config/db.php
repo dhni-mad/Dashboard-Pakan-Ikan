@@ -1,10 +1,9 @@
 <?php
 
-
-$host = '127.0.0.1'; 
+$host = '127.0.0.1';
 $db_name = 'db_pakan_ikan';
-$username = 'root'; 
-$password = ''; 
+$username = 'root';
+$password = '';
 
 try {
     $db = new PDO("mysql:host=$host;dbname=$db_name", $username, $password);

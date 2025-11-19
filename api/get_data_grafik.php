@@ -12,7 +12,6 @@ try {
     $data = [];
 
     foreach (array_reverse($result) as $row) {
-        
         $labels[] = date('d M H:i', strtotime($row['waktu']));
         $data[] = $row['berat_pakan'];
     }
