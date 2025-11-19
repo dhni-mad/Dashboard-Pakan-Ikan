@@ -1,10 +1,10 @@
 <?php
-// config/db.php
 
-$host = '127.0.0.1'; // atau 'localhost'
+
+$host = '127.0.0.1'; 
 $db_name = 'db_pakan_ikan';
-$username = 'root'; // Default username Laragon
-$password = ''; // Default password Laragon kosong
+$username = 'root'; 
+$password = ''; 
 
 try {
     $db = new PDO("mysql:host=$host;dbname=$db_name", $username, $password);
