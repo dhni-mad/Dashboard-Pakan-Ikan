@@ -50,3 +50,16 @@ CREATE TABLE `pengaturan` (
 );
 
 INSERT INTO `pengaturan` (id, batas_pakan_habis, batas_air_keruh) VALUES (1, 15, 700);
+
+CREATE TABLE `jadwal_pakan` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `jam` TIME NOT NULL,
+  `berat_pakan` FLOAT NOT NULL DEFAULT 50,
+  `aktif` TINYINT(1) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`)
+);
+
+INSERT INTO `jadwal_pakan` (jam, berat_pakan, aktif) VALUES 
+('07:00:00', 50, 1),
+('12:00:00', 50, 1),
+('16:00:00', 50, 1);
