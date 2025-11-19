@@ -40,3 +40,13 @@ CREATE TABLE `log_jarak_pakan` (
 ALTER TABLE `status_sistem`
   ADD COLUMN `jarak_cm` INT(11) NOT NULL DEFAULT 0 AFTER `water_status`,
   ADD COLUMN `manual_feed_request` TINYINT(1) NOT NULL DEFAULT 0 AFTER `jarak_cm`;
+
+
+CREATE TABLE `pengaturan` (
+  `id` INT(11) NOT NULL DEFAULT 1,
+  `batas_pakan_habis` INT(11) NOT NULL DEFAULT 15,
+  `batas_air_keruh` INT(11) NOT NULL DEFAULT 700, 
+  PRIMARY KEY (`id`)
+);
+
+INSERT INTO `pengaturan` (id, batas_pakan_habis, batas_air_keruh) VALUES (1, 15, 700);
