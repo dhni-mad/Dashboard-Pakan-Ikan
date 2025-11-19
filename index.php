@@ -50,6 +50,7 @@ $log_air_keruh = $stmt_log_air->fetchAll(PDO::FETCH_ASSOC);
                 <a href="index.php" class="px-3 py-2 rounded bg-blue-600 text-white font-semibold">Dashboard</a>
                 <a href="analisis.php" class="px-3 py-2 rounded text-gray-700 hover:bg-gray-200 font-semibold">Analisis Data</a>
                 <a href="laporan.php" class="px-3 py-2 rounded text-gray-700 hover:bg-gray-200 font-semibold">Laporan</a>
+                <a href="pengaturan.php" class="px-3 py-2 rounded text-gray-700 hover:bg-gray-200 font-semibold">Pengaturan</a>
             </div>
         </nav>
     </header>
