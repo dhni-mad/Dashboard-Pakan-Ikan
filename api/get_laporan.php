@@ -85,18 +85,18 @@ try {
                 SUM(berat_pakan) as total
             FROM log_pemberian_pakan 
             WHERE waktu BETWEEN ? AND ?
-            GROUP BY DATE_FORMAT(waktu, '%H')
-            ORDER BY waktu
+            GROUP BY label
+            ORDER BY label ASC
         ");
     } else {
         $stmt_grafik = $db->prepare("
             SELECT 
-                DATE_FORMAT(waktu, '%d %b') as label,
+                DATE_FORMAT(MIN(waktu), '%d %b') as label,
                 SUM(berat_pakan) as total
             FROM log_pemberian_pakan 
             WHERE waktu BETWEEN ? AND ?
             GROUP BY DATE_FORMAT(waktu, '%Y-%m-%d')
-            ORDER BY waktu
+            ORDER BY MIN(waktu) ASC
         ");
     }
     $stmt_grafik->execute([$start_date, $end_date]);
