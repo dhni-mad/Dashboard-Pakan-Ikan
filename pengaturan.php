@@ -1,24 +1,34 @@
 <?php
-// pengaturan.php
 require 'config/db.php';
 
-// Ambil data pengaturan saat ini dari database
+// Ambil data pengaturan saat ini
 $stmt = $db->prepare("SELECT * FROM pengaturan WHERE id = 1");
 $stmt->execute();
 $setting = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
-<html lang="id" class="light">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pengaturan Sistem</title>
+    <title>Pengaturan Sistem - Monitoring Pakan Ikan</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        * { font-family: 'Inter', sans-serif; }
+        .gradient-blue { background: linear-gradient(135deg, #004bd4 0%, #007bff 100%); }
+        .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0, 75, 212, 0.1); }
+        .nav-link { position: relative; transition: all 0.3s ease; }
+        .nav-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 3px; background: linear-gradient(90deg, #004bd4, #007bff); transition: width 0.3s ease; border-radius: 3px; }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .icon-box { background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%); }
+    </style>
 </head>
 <body class="bg-gray-50">
     
-    <!-- Modern Navbar -->
     <nav class="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
@@ -42,10 +52,10 @@ $setting = $stmt->fetch(PDO::FETCH_ASSOC);
                     <a href="laporan.php" class="nav-link px-4 py-2 text-sm font-medium text-gray-600 hover:text-blue-600">
                         <i class="ri-file-text-line mr-1"></i> Laporan
                     </a>
-                    <a href="jadwal.php" class="nav-link active px-4 py-2 text-sm font-medium text-blue-600">
+                    <a href="jadwal.php" class="nav-link px-4 py-2 text-sm font-medium text-gray-600 hover:text-blue-600">
                         <i class="ri-calendar-line mr-1"></i> Jadwal
                     </a>
-                    <a href="pengaturan.php" class="nav-link px-4 py-2 text-sm font-medium text-gray-600 hover:text-blue-600">
+                    <a href="pengaturan.php" class="nav-link active px-4 py-2 text-sm font-medium text-blue-600">
                         <i class="ri-settings-3-line mr-1"></i> Pengaturan
                     </a>
                 </div>
@@ -63,172 +73,96 @@ $setting = $stmt->fetch(PDO::FETCH_ASSOC);
         </div>
     </nav>
 
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <div class="mb-8">
+            <h2 class="text-3xl font-bold text-gray-900 mb-2">Pengaturan Sistem</h2>
+            <p class="text-gray-600">Konfigurasi batas sensor (threshold) untuk notifikasi dan status.</p>
+        </div>
 
-    <main class="container mx-auto p-6">
-        <div id="pengaturan" class="mt-12">
-            <div class="mb-6">
-                <h2 class="text-2xl font-bold text-gray-900 mb-2">Pengaturan Sistem</h2>
-                <p class="text-gray-600">Konfigurasi threshold sensor dan parameter sistem</p>
-            </div>
-
+        <form action="api/simpan_pengaturan.php" method="POST">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 
-                <!-- Pengaturan Sensor Pakan -->
-                <div class="bg-white rounded-2xl shadow-lg p-6 card-hover">
+                <div class="bg-white rounded-2xl shadow-lg p-6 card-hover border-t-4 border-red-500">
                     <div class="flex items-center mb-6">
                         <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center mr-3">
                             <i class="ri-ruler-line text-2xl text-red-600"></i>
                         </div>
                         <div>
                             <h3 class="text-lg font-bold text-gray-900">Sensor Jarak Pakan</h3>
-                            <p class="text-sm text-gray-500">Batas deteksi pakan habis</p>
+                            <p class="text-sm text-gray-500">Kalibrasi wadah pakan</p>
                         </div>
                     </div>
                     
                     <div class="space-y-4">
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                Jarak Pakan Habis (cm)
+                                Batas Pakan "Habis" (cm)
                             </label>
-                            <input type="number" value="15" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition">
+                            <input type="number" name="batas_pakan" value="<?php echo $setting['batas_pakan_habis']; ?>" 
+                                   class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition">
                             <p class="text-xs text-gray-500 mt-2">
                                 <i class="ri-information-line mr-1"></i>
-                                Jika jarak ≥ 15 cm, status akan berubah menjadi "Habis"
+                                Jika sensor membaca jarak ≥ nilai ini, status menjadi HABIS.
                             </p>
                         </div>
                         
-                        <div class="bg-gray-50 rounded-xl p-4">
-                            <h4 class="text-sm font-semibold text-gray-700 mb-3">Status Levels:</h4>
-                            <div class="space-y-2 text-sm">
-                                <div class="flex items-center justify-between">
-                                    <span class="text-gray-600">≥ 15 cm</span>
-                                    <span class="px-2 py-1 bg-red-100 text-red-700 rounded font-semibold">Habis</span>
-                                </div>
-                                <div class="flex items-center justify-between">
-                                    <span class="text-gray-600">13-14 cm</span>
-                                    <span class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded font-semibold">Hampir Habis</span>
-                                </div>
-                                <div class="flex items-center justify-between">
-                                    <span class="text-gray-600">10-12 cm</span>
-                                    <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded font-semibold">Sedang</span>
-                                </div>
-                                <div class="flex items-center justify-between">
-                                    <span class="text-gray-600">0-9 cm</span>
-                                    <span class="px-2 py-1 bg-green-100 text-green-700 rounded font-semibold">Penuh</span>
-                                </div>
-                            </div>
+                        <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                            <h4 class="text-sm font-semibold text-red-900 mb-2">Logika Sistem:</h4>
+                            <ul class="text-sm text-red-700 space-y-1 list-disc list-inside">
+                                <li><strong>≥ <?php echo $setting['batas_pakan_habis']; ?> cm:</strong> Habis</li>
+                                <li><strong><?php echo $setting['batas_pakan_habis']-2; ?> - <?php echo $setting['batas_pakan_habis']-1; ?> cm:</strong> Hampir Habis</li>
+                                <li><strong>&lt; <?php echo $setting['batas_pakan_habis']-2; ?> cm:</strong> Aman/Penuh</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
 
-                <!-- Pengaturan Sensor Air -->
-                <div class="bg-white rounded-2xl shadow-lg p-6 card-hover">
+                <div class="bg-white rounded-2xl shadow-lg p-6 card-hover border-t-4 border-yellow-500">
                     <div class="flex items-center mb-6">
                         <div class="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center mr-3">
                             <i class="ri-contrast-line text-2xl text-yellow-600"></i>
                         </div>
                         <div>
-                            <h3 class="text-lg font-bold text-gray-900">Sensor Kekeruhan Air</h3>
-                            <p class="text-sm text-gray-500">Batas deteksi air keruh</p>
+                            <h3 class="text-lg font-bold text-gray-900">Sensor Kekeruhan</h3>
+                            <p class="text-sm text-gray-500">Kalibrasi kualitas air</p>
                         </div>
                     </div>
                     
                     <div class="space-y-4">
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                Nilai Batas Kekeruhan
+                                Batas Air "Keruh" (Nilai Analog)
                             </label>
-                            <input type="number" value="700" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition">
+                            <input type="number" name="batas_air" value="<?php echo $setting['batas_air_keruh']; ?>" 
+                                   class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition">
                             <p class="text-xs text-gray-500 mt-2">
                                 <i class="ri-information-line mr-1"></i>
-                                Jika nilai sensor > 700, status akan berubah menjadi "Keruh"
+                                Nilai sensor LDR (0-1024). Semakin tinggi biasanya semakin keruh/gelap.
                             </p>
                         </div>
                         
-                        <div class="bg-gray-50 rounded-xl p-4">
-                            <h4 class="text-sm font-semibold text-gray-700 mb-3">Status Levels:</h4>
-                            <div class="space-y-2 text-sm">
-                                <div class="flex items-center justify-between">
-                                    <span class="text-gray-600">≤ 700</span>
-                                    <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded font-semibold">Jernih</span>
-                                </div>
-                                <div class="flex items-center justify-between">
-                                    <span class="text-gray-600">> 700</span>
-                                    <span class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded font-semibold">Keruh</span>
-                                </div>
-                            </div>
+                        <div class="bg-yellow-50 rounded-xl p-4 border border-yellow-100">
+                            <h4 class="text-sm font-semibold text-yellow-900 mb-2">Logika Sistem:</h4>
+                            <ul class="text-sm text-yellow-700 space-y-1 list-disc list-inside">
+                                <li><strong>> <?php echo $setting['batas_air_keruh']; ?>:</strong> Status Keruh</li>
+                                <li><strong>≤ <?php echo $setting['batas_air_keruh']; ?>:</strong> Status Jernih</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Save Button -->
-            <div class="mt-6 flex justify-end">
-                <button class="gradient-blue text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition flex items-center space-x-2">
-                    <i class="ri-save-line text-xl"></i>
-                    <span>Simpan Pengaturan</span>
+            <div class="mt-8 flex justify-end">
+                <button type="submit" class="gradient-blue text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1 transition flex items-center space-x-2">
+                    <i class="ri-save-3-line text-xl"></i>
+                    <span>Simpan Perubahan</span>
                 </button>
             </div>
-        </div>
+        </form>
 
     </main>
 
-    <!-- Modal Add/Edit Schedule -->
-    <div id="scheduleModal" class="hidden fixed inset-0 bg-black bg-opacity-50 modal-overlay z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 transform transition-all">
-            <div class="flex items-center justify-between mb-6">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 gradient-blue rounded-xl flex items-center justify-center">
-                        <i class="ri-calendar-line text-white"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900">Tambah Jadwal Baru</h3>
-                </div>
-                <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
-                    <i class="ri-close-line text-2xl"></i>
-                </button>
-            </div>
-            
-            <form class="space-y-4">
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">
-                        <i class="ri-time-line mr-1"></i>
-                        Waktu Pemberian
-                    </label>
-                    <input type="time" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition">
-                </div>
-                
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">
-                        <i class="ri-scales-3-line mr-1"></i>
-                        Berat Pakan (gram)
-                    </label>
-                    <input type="number" value="50" min="1" max="500" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition">
-                </div>
-                
-                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
-                    <div>
-                        <p class="text-sm font-semibold text-gray-900">Status Jadwal</p>
-                        <p class="text-xs text-gray-500">Aktifkan jadwal ini</p>
-                    </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" checked>
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-                
-                <div class="flex space-x-3 pt-4">
-                    <button type="button" onclick="closeModal()" class="flex-1 px-6 py-3 border-2 border-gray-200 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 transition">
-                        Batal
-                    </button>
-                    <button type="submit" class="flex-1 gradient-blue text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition">
-                        Simpan
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Footer -->
     <footer class="bg-white border-t border-gray-100 mt-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -237,21 +171,6 @@ $setting = $stmt->fetch(PDO::FETCH_ASSOC);
             </div>
         </div>
     </footer>
-
-    <script>
-        function openAddModal() {
-            document.getElementById('scheduleModal').classList.remove('hidden');
-        }
-        
-        function closeModal() {
-            document.getElementById('scheduleModal').classList.add('hidden');
-        }
-        
-        function editSchedule(id) {
-            // Populate modal with existing data
-            openAddModal();
-        }
-    </script>
 
 </body>
 </html>
