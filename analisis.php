@@ -194,9 +194,9 @@ if ($rata_jarak_text == 'Habis') {
                 </div>
                 <div class="flex items-center justify-between pt-3 border-t border-gray-100">
                     <span class="text-sm text-gray-600">Status</span>
-                    <span class="text-sm font-bold <?php echo ($stats_air['rata_kekeruhan'] > 700) ? 'text-yellow-600' : 'text-green-600'; ?> flex items-center">
-                        <i class="<?php echo ($stats_air['rata_kekeruhan'] > 700) ? 'ri-alert-line' : 'ri-checkbox-circle-line'; ?> mr-1"></i>
-                        <?php echo ($stats_air['rata_kekeruhan'] > 700) ? 'Keruh' : 'Jernih'; ?>
+                    <span class="text-sm font-bold <?php echo ($stats_air['rata_kekeruhan'] < 500) ? 'text-yellow-600' : 'text-green-600'; ?> flex items-center">
+                        <i class="<?php echo ($stats_air['rata_kekeruhan'] < 500) ? 'ri-alert-line' : 'ri-checkbox-circle-line'; ?> mr-1"></i>
+                        <?php echo ($stats_air['rata_kekeruhan'] < 500) ? 'Keruh' : 'Jernih'; ?>
                     </span>
                 </div>
             </div>

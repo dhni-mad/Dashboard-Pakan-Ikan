@@ -38,8 +38,8 @@ if ($jarak === null) {
 // Sesuaikan logika (< atau >) dengan sensor Anda nanti
 $water_status_text = "Jernih";
 if ($kekeruhan !== null) {
-    // Jika nilai sensor > batas, maka Keruh
-    if ($kekeruhan > $BATAS_KERUH) {
+    // Jika nilai sensor LEBIH KECIL dari batas, maka Keruh
+    if ($kekeruhan < $BATAS_KERUH) {
         $water_status_text = "Keruh";
     }
 }

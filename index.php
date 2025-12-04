@@ -44,7 +44,7 @@ $stmt_log_pakan->execute();
 $log_pakan = $stmt_log_pakan->fetchAll(PDO::FETCH_ASSOC);
 
 // === AMBIL LOG AIR KERUH ===
-$stmt_log_air = $db->prepare("SELECT waktu, nilai_kekeruhan FROM log_kekeruhan_air WHERE nilai_kekeruhan > 700 ORDER BY waktu DESC LIMIT 5");
+$stmt_log_air = $db->prepare("SELECT waktu, nilai_kekeruhan FROM log_kekeruhan_air WHERE nilai_kekeruhan < 500 ORDER BY waktu DESC LIMIT 5");
 $stmt_log_air->execute();
 $log_air_keruh = $stmt_log_air->fetchAll(PDO::FETCH_ASSOC);
 

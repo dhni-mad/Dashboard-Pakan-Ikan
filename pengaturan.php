@@ -138,15 +138,15 @@ $setting = $stmt->fetch(PDO::FETCH_ASSOC);
                                    class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition">
                             <p class="text-xs text-gray-500 mt-2">
                                 <i class="ri-information-line mr-1"></i>
-                                Nilai sensor LDR (0-1024). Semakin tinggi biasanya semakin keruh/gelap.
+                                Nilai sensor LDR (0-1024). <b>Semakin RENDAH</b> berarti cahaya terhalang (Air Keruh).
                             </p>
                         </div>
                         
                         <div class="bg-yellow-50 rounded-xl p-4 border border-yellow-100">
                             <h4 class="text-sm font-semibold text-yellow-900 mb-2">Logika Sistem:</h4>
                             <ul class="text-sm text-yellow-700 space-y-1 list-disc list-inside">
-                                <li><strong>> <?php echo $setting['batas_air_keruh']; ?>:</strong> Status Keruh</li>
-                                <li><strong>≤ <?php echo $setting['batas_air_keruh']; ?>:</strong> Status Jernih</li>
+                                <li><strong>&lt; <?php echo $setting['batas_air_keruh']; ?>:</strong> Status Keruh</li>
+                                <li><strong>&ge; <?php echo $setting['batas_air_keruh']; ?>:</strong> Status Jernih</li>
                             </ul>
                         </div>
                     </div>

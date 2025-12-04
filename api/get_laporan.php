@@ -48,7 +48,7 @@ try {
             AVG(nilai_kekeruhan) as rata_rata,
             MIN(nilai_kekeruhan) as min_nilai,
             MAX(nilai_kekeruhan) as max_nilai,
-            SUM(CASE WHEN nilai_kekeruhan > 700 THEN 1 ELSE 0 END) as jumlah_keruh
+            SUM(CASE WHEN nilai_kekeruhan < 500 THEN 1 ELSE 0 END) as jumlah_keruh
         FROM log_kekeruhan_air 
         WHERE waktu BETWEEN ? AND ?
     ");
